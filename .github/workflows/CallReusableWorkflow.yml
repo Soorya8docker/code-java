@@ -1,0 +1,17 @@
+name: Reusable Workflow User
+
+on:
+  workflow_dispatch:
+    inputs:
+      Branch:
+        description: 'Enter Sprint branch'
+        type: string
+        required: true
+jobs:
+  use_reusable_job:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Call the Reusable Job
+      uses: Soorya8docker/ReusableWorkflow/.github/workflow/ReusableWorkflow.yml@main
+      with:
+        Branch: ${inputs.Branch}
