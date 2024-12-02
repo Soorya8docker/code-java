@@ -22,6 +22,8 @@ jobs:
         run: |
           echo "##[set-output name=proceed;]false"; RC=$? # Change to 'false' to simulate skipping
           echo $RC
+          if [ "${RC}" -eq 0 ]; then echo -e "INFO: Re-compile maketpf" fi
+
       - name: Job 1 Execution
         run: echo "Job 1 completed."
 
