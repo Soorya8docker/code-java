@@ -20,7 +20,8 @@ jobs:
       - name: Decide whether to proceed to Job2
         id: set-output
         run: |
-          echo "##[set-output name=proceed;]false" # Change to 'false' to simulate skipping
+          echo "##[set-output name=proceed;]false"; RC=$? # Change to 'false' to simulate skipping
+          echo $RC
       - name: Job 1 Execution
         run: echo "Job 1 completed."
 
