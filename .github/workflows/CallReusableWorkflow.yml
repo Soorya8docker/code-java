@@ -20,7 +20,7 @@ jobs:
       - name: Decide whether to proceed to Job2
         id: set-output
         run: |
-          echo "##[set-output name=proceed;]false"; RC=$? # Change to 'false' to simulate skipping
+          echo "##[set-output name=proceed;]true"; RC=$? # Change to 'false' to simulate skipping
           echo $RC
           if [ "${RC}" -eq 0 ]; then echo -e "INFO: Re-compile maketpf" fi
 
