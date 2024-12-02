@@ -1,4 +1,4 @@
-name: Reusable Workflow User
+name: Dynamic Dependencies Example
 
 on:
   workflow_dispatch:
@@ -7,8 +7,27 @@ on:
         description: 'Enter Sprint branch'
         type: string
         required: true
+        default: master
+env:
+  SKIP_JOB2: false # Environment variable to simulate dynamic behavior
+
 jobs:
-  call-workflow-passing-data:
-    uses: Soorya8docker/ReusableWorkflow/.github/workflow/ReusableWorkflow.yml@main
-    with:
-      Branch: ${inputs.Branch}
+  job1:
+    runs-on: ubuntu-latest
+    outputs:
+      proceed_to_job2: ${{ steps.set-output.outputs.proceed }}
+    steps:
+      - name: Decide whether to proceed to Job2
+        id: set-output
+        run: |
+          echo "##[set-output name=proceed;]true" # Change to 'false' to simulate skipping
+      - name: Job 1 Execution
+        run: echo "Job 1 completed."
+
+  job2:
+    runs-on: ubuntu-latest
+    needs: job1
+    if: ${{ needs.job1.outputs.proceed_to_job2 == 'true' }}
+    steps:
+      - name: Job 2 Execution
+        run: echo "Job 2 is running because Job 1 allowed it."
